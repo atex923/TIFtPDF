@@ -39,22 +39,28 @@ Build_TIFtPDF_V0.8.bat
 
 批次檔會先建立 standalone 版本方便檢查 DLL、Tcl/Tk 與 `tkinterdnd2` 資料，再建立 onefile 單一執行檔。
 
-## 版本封存
+## 目前版本
 
-正式版同步到 Google Drive：
+`V0.8`
+
+主目錄保留最新版主程式與打包檔：
+
+```text
+TIFtPDF_V0.8.pyw
+Build_TIFtPDF_V0.8.bat
+```
+
+## 歷史版本
+
+舊版已移到 repo 內的 `versions/` 歷史區，每個版號使用獨立資料夾保存：
+
+```text
+versions/TIFtPDF_V0.6/
+versions/TIFtPDF_V0.7/
+```
+
+Google Drive 也同步保存相同的分版號資料夾：
 
 ```text
 12.Codex/TIFtPDF_versions/
 ```
-
-每個版號使用獨立資料夾保存，例如：
-
-```text
-TIFtPDF_V0.6/
-TIFtPDF_V0.7/
-TIFtPDF_V0.8/
-```
-
-## 目前版本
-
-`V0.8`
