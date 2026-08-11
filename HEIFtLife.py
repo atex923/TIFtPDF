@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-HEIFtLife V0.11
+HEIFtLife V0.12
 HEIF/HEIC 轉 JPG 拖曳小工具
 
-V0.11 優化重點
+V0.12 優化重點
 - 轉檔改成背景執行緒，拖入大圖時視窗不會卡住。
 - 增加執行錯誤 log：HEIFtLife_error_log.txt。
 - 打包成 exe 後，不再嘗試用 exe 自己執行 pip；缺套件會顯示重新打包提示。
@@ -35,7 +35,7 @@ from tkinter import messagebox
 
 APP_NAME = "HEIF轉換罐"
 APP_FILE = "HEIFtLife"
-VERSION = "V0.11"
+VERSION = "V0.12"
 PROMPT_TEXT = "Drag & Drop"
 DONE_TEXT = "Done！"
 WORKING_TEXT = "Working..."
