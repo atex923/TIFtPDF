@@ -41,16 +41,18 @@ Build_TIFtPDF_V0.8.bat
 
 ## 版本封存
 
-歷史版號已集中收在 repo 的 `versions/` 資料夾，主頁只保留目前最新版資訊：
-
-```text
-versions/TIFtPDF/
-```
-
-每個版號使用獨立資料夾保存；Google Drive 正式封存位置維持：
+正式版同步到 Google Drive：
 
 ```text
 12.Codex/TIFtPDF_versions/
+```
+
+每個版號使用獨立資料夾保存，例如：
+
+```text
+TIFtPDF_V0.6/
+TIFtPDF_V0.7/
+TIFtPDF_V0.8/
 ```
 
 ## 目前版本
