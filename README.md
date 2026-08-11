@@ -24,7 +24,7 @@ TIFtPDF（TIF拌成PDF）是一個輕量 Windows 拖曳轉檔工具，專注在�
 
 ```bash
 python -m pip install -r requirements.txt
-python TIFtPDF_V0.7.pyw
+python TIFtPDF_V0.8.pyw
 ```
 
 ## Windows 打包
@@ -32,11 +32,15 @@ python TIFtPDF_V0.7.pyw
 在 Windows 環境執行：
 
 ```bat
-Build_TIFtPDF_V0.7.bat
+Build_TIFtPDF_V0.8.bat
 ```
 
 批次檔會先建立 standalone 版本方便檢查，再建立 onefile 單一執行檔。
 
+## 版本封存
+
+正式版會同步到 Google Drive 的 `12.Codex/TIFtPDF_versions/`，每個版號使用獨立資料夾，例如 `TIFtPDF_V0.8/`。
+
 ## 目前版本
 
-V0.7
+V0.8
