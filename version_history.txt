@@ -1,0 +1,16 @@
+HEIFtLife 版本歷史
+==================
+
+V0.10
+- 程式碼整理與錯誤處理優化。
+- 轉檔背景執行，避免拖入大圖時視窗卡死。
+- 增加 HEIFtLife_error_log.txt。
+- frozen / exe 模式不再嘗試 pip，自動安裝只保留在 source 模式。
+- 增加 Nuitka standalone 檢查與 onefile 打包批次檔。
+
+V0.11
+- 移除視窗裡的視窗底圖與紅黃綠圓點，只保留拖曳框與圖片翻身圖案。
+- 拖曳進入時框線變亮。
+- 多檔完成顯示 Done！ x N。
+- 轉 JPG 時盡量保留 ICC 色彩 profile。
+- 重新整理 README，凸顯程式特色與使用方式。

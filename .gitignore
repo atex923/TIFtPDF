@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.pyo
+*.log
+build/
+build_logs/
+*.dist/
+*.build/
+*.onefile-build/
+.DS_Store
