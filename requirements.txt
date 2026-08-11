@@ -1,0 +1,6 @@
+pillow
+pymupdf
+tkinterdnd2
+nuitka
+ordered-set
+zstandard

@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+*.log
+build_TIFtPDF_*/
+*.dist/
+*.build/
+*.onefile-build/
