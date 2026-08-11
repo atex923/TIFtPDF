@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-TIFtPDF V0.8
+TIFtPDF V0.6
 TIF/TIFF、PNG、JPG 與 PDF 雙向轉換小工具。
 
 Nuitka 建議：先 standalone 測試，再 onefile 正式打包。
@@ -8,6 +8,7 @@ Nuitka 建議：先 standalone 測試，再 onefile 正式打包。
 from __future__ import annotations
 
 import logging
+import os
 import queue
 import sys
 import threading
@@ -18,7 +19,7 @@ import tkinter as tk
 from tkinter import messagebox
 
 try:
-    from PIL import Image, ImageOps, ImageSequence
+    from PIL import Image, ImageSequence
     import fitz
     from tkinterdnd2 import DND_FILES, TkinterDnD
 except ImportError as exc:
@@ -36,7 +37,7 @@ except ImportError as exc:
 
 APP_NAME = "TIF拌成PDF"
 APP_FILE = "TIFtPDF"
-VERSION = "V0.8"
+VERSION = "V0.6"
 WINDOW_SIZE = "200x200"
 PROMPT_TEXT = "Drag & Drop"
 DONE_TEXT = "Done！"
@@ -74,7 +75,7 @@ def log_exception(context: str) -> None:
     logging.error("%s\n%s", context, traceback.format_exc())
 
 
-def rounded_rect(canvas: tk.Canvas, x1: int, y1: int, x2: int, y2: int, radius: int = 18, **kwargs) -> int:
+def rounded_rect(canvas: tk.Canvas, x1: int, y1: int, x2: int, y2: int, radius: int = 18, **kwargs):
     points = [
         x1 + radius, y1, x2 - radius, y1, x2, y1, x2, y1 + radius,
         x2, y2 - radius, x2, y2, x2 - radius, y2, x1 + radius, y2,
@@ -86,7 +87,6 @@ def rounded_rect(canvas: tk.Canvas, x1: int, y1: int, x2: int, y2: int, radius: 
 def flatten_to_rgb(frame: Image.Image) -> Image.Image:
     """轉為 PDF/JPG 可安全儲存的 RGB，透明區域改成白色。"""
     frame.load()
-    frame = ImageOps.exif_transpose(frame)
     if frame.mode == "RGB":
         return frame.copy()
     if frame.mode == "L":
@@ -129,10 +129,6 @@ def image_to_pdf(source: Path, destination: Path) -> int:
     return 1
 
 
-def is_supported_file(path: Path) -> bool:
-    return path.is_file() and path.suffix.lower() in SUPPORTED_EXTENSIONS
-
-
 def pdf_to_jpg(source: Path, dpi: int = PDF_IMAGE_DPI, quality: int = PDF_JPG_QUALITY) -> int:
     with fitz.open(source) as document:
         if document.page_count <= 0:
@@ -155,40 +151,17 @@ class ConversionResult:
     tif_count: int = 0
     image_count: int = 0
     pdf_count: int = 0
-    skipped_count: int = 0
     errors: list[str] | None = None
-    skipped: list[str] | None = None
 
     def __post_init__(self) -> None:
         if self.errors is None:
             self.errors = []
-        if self.skipped is None:
-            self.skipped = []
-
-    @property
-    def attempted(self) -> int:
-        return self.converted + len(self.errors or [])
-
-
-def summarize_result(result: ConversionResult) -> str:
-    lines = [
-        f"成功：{result.converted} 個檔案，共 {result.total_pages} 頁。",
-        f"TIF→PDF：{result.tif_count} 個；圖片→PDF：{result.image_count} 個；PDF→JPG：{result.pdf_count} 個。",
-    ]
-    if result.skipped_count:
-        lines.append(f"略過：{result.skipped_count} 個不支援或不存在的項目。")
-    return "\n".join(lines)
 
 
 def convert_files(paths: list[Path]) -> ConversionResult:
     result = ConversionResult()
     assert result.errors is not None
-    assert result.skipped is not None
     for path in paths:
-        if not is_supported_file(path):
-            result.skipped_count += 1
-            result.skipped.append(path.name or str(path))
-            continue
         try:
             suffix = path.suffix.lower()
             if suffix == ".pdf":
@@ -278,7 +251,8 @@ class TIFtPDFApp:
             return
 
         paths = [Path(value) for value in self.root.tk.splitlist(event.data)]
-        if not any(is_supported_file(path) for path in paths):
+        valid_paths = [path for path in paths if path.is_file() and path.suffix.lower() in SUPPORTED_EXTENSIONS]
+        if not valid_paths:
             self.set_status("Image/PDF only")
             messagebox.showwarning("檔案格式不符", "請拖曳 TIF、TIFF、PNG、JPG、JPEG 或 PDF 檔案。", parent=self.root)
             self.reset_status_later()
@@ -286,7 +260,7 @@ class TIFtPDFApp:
 
         self.is_working = True
         self.set_status("Working...")
-        threading.Thread(target=self.worker, args=(paths,), daemon=True).start()
+        threading.Thread(target=self.worker, args=(valid_paths,), daemon=True).start()
         self.root.after(100, self.poll_result)
 
     def worker(self, paths: list[Path]) -> None:
@@ -303,18 +277,17 @@ class TIFtPDFApp:
         errors = result.errors or []
         if result.converted:
             self.set_status(DONE_TEXT)
-            if errors or result.skipped_count:
-                details = summarize_result(result)
-                if errors:
-                    details += "\n\n失敗：\n" + "\n".join(errors[:8]) + f"\n\n錯誤紀錄：{LOG_PATH}"
-                messagebox.showwarning("部分轉檔完成", details, parent=self.root)
+            if errors:
+                messagebox.showwarning(
+                    "部分轉檔完成",
+                    f"成功：{result.converted} 個檔案，共 {result.total_pages} 頁。\n"
+                    f"TIF→PDF：{result.tif_count} 個；圖片→PDF：{result.image_count} 個；PDF→JPG：{result.pdf_count} 個。\n\n"
+                    "失敗：\n" + "\n".join(errors[:8]) + f"\n\n錯誤紀錄：{LOG_PATH}",
+                    parent=self.root,
+                )
         else:
             self.set_status("Error")
-            if errors:
-                message = "\n".join(errors[:8]) + f"\n\n錯誤紀錄：{LOG_PATH}"
-            else:
-                message = "沒有可轉換的檔案。"
-            messagebox.showerror("轉檔失敗", message, parent=self.root)
+            messagebox.showerror("轉檔失敗", ("\n".join(errors[:8]) or "沒有可轉換的檔案。") + f"\n\n錯誤紀錄：{LOG_PATH}", parent=self.root)
         self.reset_status_later()
 
     def run(self) -> None:
