@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-TIFtPDF V0.7
+TIFtPDF V0.8
 TIF/TIFF、PNG、JPG 與 PDF 雙向轉換小工具。
 
 Nuitka 建議：先 standalone 測試，再 onefile 正式打包。
@@ -36,7 +36,7 @@ except ImportError as exc:
 
 APP_NAME = "TIF拌成PDF"
 APP_FILE = "TIFtPDF"
-VERSION = "V0.7"
+VERSION = "V0.8"
 WINDOW_SIZE = "200x200"
 PROMPT_TEXT = "Drag & Drop"
 DONE_TEXT = "Done！"

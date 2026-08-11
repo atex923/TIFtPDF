@@ -1,12 +1,12 @@
-# TIFtPDF V0.7 — Codex 移轉說明
+# TIFtPDF V0.8 — Codex 移轉說明
 
 ## 專案基本資訊
 - 程式名稱：TIFtPDF
 - 視窗中文標題：TIF拌成PDF
-- 目前版號：V0.7
+- 目前版號：V0.8
 - 版本規則：一般改版只增加第二碼，依序 V0.7、V0.8 … V0.99。
 - Windows GUI：Tkinter + tkinterdnd2
-- 主程式：TIFtPDF_V0.7.pyw
+- 主程式：TIFtPDF_V0.8.pyw
 - 目標：使用 Nuitka 轉譯為 Windows 單一 EXE，且不顯示 Console。
 
 ## 現有功能
@@ -42,10 +42,10 @@ python -m nuitka ^
   --include-package-data=tkinterdnd2 ^
   --include-package=PIL ^
   --include-package=fitz ^
-  --output-dir=build_TIFtPDF_V0.7\standalone ^
-  --output-filename=TIFtPDF_V0.7.exe ^
+  --output-dir=build_TIFtPDF_V0.8\standalone ^
+  --output-filename=TIFtPDF_V0.8.exe ^
   --assume-yes-for-downloads ^
-  TIFtPDF_V0.7.pyw
+  TIFtPDF_V0.8.pyw
 ```
 
 ### Onefile
@@ -58,24 +58,24 @@ python -m nuitka ^
   --include-package-data=tkinterdnd2 ^
   --include-package=PIL ^
   --include-package=fitz ^
-  --output-dir=build_TIFtPDF_V0.7\onefile ^
-  --output-filename=TIFtPDF_V0.7.exe ^
+  --output-dir=build_TIFtPDF_V0.8\onefile ^
+  --output-filename=TIFtPDF_V0.8.exe ^
   --onefile-tempdir-spec="{CACHE_DIR}/{COMPANY}/{PRODUCT}/{VERSION}" ^
   --company-name=Atex ^
   --product-name=TIFtPDF ^
-  --file-version=0.7.0.0 ^
-  --product-version=0.7.0.0 ^
+  --file-version=0.8.0.0 ^
+  --product-version=0.8.0.0 ^
   --file-description="TIF拌成PDF" ^
   --copyright=Atex ^
   --assume-yes-for-downloads ^
-  TIFtPDF_V0.7.pyw
+  TIFtPDF_V0.8.pyw
 ```
 
 ## Codex 接手要求
-- 以 `TIFtPDF_V0.7.pyw` 為唯一最新主程式基準。
+- 以 `TIFtPDF_V0.8.pyw` 為唯一最新主程式基準。
 - 不要改掉既有拖曳操作方式與輸出命名規則，除非收到明確新需求。
 - 修改後先做 Python 語法檢查。
-- 若修改影響打包，相對應同步修改 `Build_TIFtPDF_V0.7.bat`。
+- 若修改影響打包，相對應同步修改 `Build_TIFtPDF_V0.8.bat`。
 - 每次正式功能修改後依規則進版，並同步更新：
   - 檔名
   - `VERSION`
@@ -91,6 +91,10 @@ python -m nuitka ^
 - 圖片轉 PDF 時套用 EXIF 方向校正，手機照片方向更穩定。
 - 混合拖曳時保留有效檔案轉換，並清楚回報略過數量。
 - 同步更新 Nuitka 打包檔名、輸出資料夾與 EXE 版本資訊。
+
+## V0.8 更新摘要
+- 進版主程式、打包批次檔與文件到 V0.8。
+- 建立雲端硬碟版號封存規則：每個版號放入獨立資料夾，避免舊版被覆蓋。
 
 ## 建議驗收項目
 - 單頁 TIFF → PDF
