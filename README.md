@@ -35,4 +35,4 @@ pythonw HEIFtLife.pyw
 
 ## 目前版本
 
-`V0.11`
+`V0.12`
