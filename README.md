@@ -1,24 +1,26 @@
 # TIFtPDF
 
-TIFtPDF（TIF拌成PDF）是一個輕量 Windows 拖曳轉檔工具，專注在日常掃描檔、圖片與 PDF 之間的快速轉換。
+TIFtPDF（TIF拌成PDF）是一個給 Windows 使用的拖曳式轉檔小工具，用來快速處理掃描 TIFF、一般圖片與 PDF 之間的常見轉換。
 
-## 程式特色
+## 主要功能
 
-- 拖曳 TIF / TIFF 轉成 PDF，多頁 TIFF 會依原頁序合併成同一份 PDF。
-- 拖曳 PNG / JPG / JPEG 轉成 PDF，並自動處理透明背景與 EXIF 方向。
-- 拖曳 PDF 轉成 JPG，每頁輸出一張 300 DPI、品質 100 的圖片。
-- 輸出檔直接放在來源資料夾，不需要額外設定路徑。
-- 轉檔在背景執行緒處理，降低 GUI 卡住的機會。
-- 視窗保持最上層，適合反覆拖曳使用。
-- 錯誤會寫入 `TIFtPDF_error.log`，方便追查問題。
-- 可用 Nuitka 打包成無 Console 的 Windows 單一 EXE。
+- **TIF / TIFF 轉 PDF**：支援單頁與多頁 TIFF，多頁檔會依原始頁序合併成同一份 PDF。
+- **PNG / JPG / JPEG 轉 PDF**：圖片直接輸出成 PDF，PNG 透明背景會轉為白底，照片會套用 EXIF 方向校正。
+- **PDF 轉 JPG**：PDF 每一頁輸出成一張 JPG，解析度 300 DPI、品質 100。
+- **原地輸出**：轉好的檔案會放在來源檔案所在資料夾。
+- **批次拖曳**：可一次拖入多個檔案，轉檔在背景執行緒處理，避免視窗卡住。
+- **錯誤記錄**：失敗原因會寫入 `TIFtPDF_error.log`，方便追查。
+- **Windows 打包友善**：提供 Nuitka 批次檔，可建立無 Console 的單一 EXE。
 
-## 輸出規則
+## 輸出命名
 
-- 圖片轉 PDF：`原檔名_rt.pdf`
-- PDF 轉 JPG：`原檔名P1.jpg`、`原檔名P2.jpg`、`原檔名P3.jpg`...
+| 來源格式 | 輸出格式 | 命名規則 |
+| --- | --- | --- |
+| TIF / TIFF | PDF | `原檔名_rt.pdf` |
+| PNG / JPG / JPEG | PDF | `原檔名_rt.pdf` |
+| PDF | JPG | `原檔名P1.jpg`、`原檔名P2.jpg`、`原檔名P3.jpg`... |
 
-## 執行方式
+## 安裝與執行
 
 需要 Python 3.10 以上。
 
@@ -35,12 +37,24 @@ python TIFtPDF_V0.8.pyw
 Build_TIFtPDF_V0.8.bat
 ```
 
-批次檔會先建立 standalone 版本方便檢查，再建立 onefile 單一執行檔。
+批次檔會先建立 standalone 版本方便檢查 DLL、Tcl/Tk 與 `tkinterdnd2` 資料，再建立 onefile 單一執行檔。
 
 ## 版本封存
 
-正式版會同步到 Google Drive 的 `12.Codex/TIFtPDF_versions/`，每個版號使用獨立資料夾，例如 `TIFtPDF_V0.8/`。
+正式版同步到 Google Drive：
+
+```text
+12.Codex/TIFtPDF_versions/
+```
+
+每個版號使用獨立資料夾保存，例如：
+
+```text
+TIFtPDF_V0.6/
+TIFtPDF_V0.7/
+TIFtPDF_V0.8/
+```
 
 ## 目前版本
 
-V0.8
+`V0.8`
